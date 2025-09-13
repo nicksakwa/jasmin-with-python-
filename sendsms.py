@@ -1,31 +1,37 @@
 import requests
 
-JASMIN_API_URL = "http://yourjasmin_server_ip:1401/send"
+# Jasmin SMS Gateway API endpoint
+JASMIN_API_URL = "http://your_jasmin_server_ip:1401/send"
 
+# Your Jasmin API credentials
 USERNAME = "your_username"
 PASSWORD = "your_password"
 
-SENDER = "your_sender_id"
-RECIPIENT = "recipient_phone_number"
-MESSAGE_CONTENT = "Hello world this is Jasmin SMS Gateway"
+# SMS details
+SENDER_ID = "YourSender"  # The sender ID (e.g., a short code or name)
+RECIPIENT = "256771234567"  # The recipient's phone number
+MESSAGE_CONTENT = "Hello, this is a test SMS from my app!"
 
+# Construct the payload
 payload = {
     "username": USERNAME,
     "password": PASSWORD,
-    "from": SENDER,
     "to": RECIPIENT,
+    "from": SENDER_ID,
     "content": MESSAGE_CONTENT
 }
 
+# Send the HTTP POST request
 try:
-    response = responses.post(JASMIN_API_URL, data=payload)
-
+    response = requests.post(JASMIN_API_URL, data=payload)
+    
+    # Check the response status
     if response.status_code == 200:
-        print("message sent successfully")
-        print("Response from jasmin:", response.text)
+        print("SMS sent successfully!")
+        print("Response from Jasmin:", response.text)
     else:
-        print("Failed to send SMS. Status code:", {response.status_code}")
-        print(" Response from jasmin:" , response.text)
-
+        print(f"Failed to send SMS. Status code: {response.status_code}")
+        print("Response from Jasmin:", response.text)
+        
 except requests.exceptions.RequestException as e:
     print(f"An error occurred: {e}")
